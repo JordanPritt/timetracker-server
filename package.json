@@ -1,0 +1,27 @@
+{
+  "name": "timetracker-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "debug": "nodemon --inspect index.js"
+  },
+  "author": "Jordan Pritt",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.3"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "morgan": "^1.9.1",
+    "nodemon": "^2.0.2"
+  }
+}
