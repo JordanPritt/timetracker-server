@@ -18,7 +18,27 @@ const userSchema = new Schema({
     type: 'String',
     required: true,
     trim: true
-  }
+  },
+  firstName: {
+    type: 'String',
+    required: false,
+    trim: true
+  },
+  lastName: {
+    type: 'String',
+    required: false,
+    trim: true
+  },
+  email: {
+    type: 'String',
+    required: false,
+    trim: true
+  },
+  status: {
+    type: 'String',
+    required: false,
+    trim: true
+  },
 });
 
 // encrypt password before save

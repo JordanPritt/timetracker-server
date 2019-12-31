@@ -37,6 +37,38 @@ module.exports = {
       }
     });
   },
+  updateUser: (req, res) => {
+    mongoose.connect(connUri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, }, (err) => {
+      let result = {};
+      let status = 201;
+
+      if(!err) {
+        const {name, password, firstName, lastName, email, status} = req.body;
+
+        let user = new User();
+        user.name = name;
+        user.password = password;
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        user.status = status;
+
+        User.findOneAndUpdate({name: name}, user, {new: true});
+      } else {
+          status = 500;
+          result.status = status;
+          result.error = err;
+          res.status(status).send(result);
+      }
+    })
+    .catch((err) => {
+      status = 500;
+      console.log(err);
+      result.status = status;
+      result.error = err;
+      res.status(status).send(result);
+    });
+  },
   login: (req, res) => {
     const { name, password } = req.body;
 
@@ -93,9 +125,6 @@ module.exports = {
       let status = 200;
       if (!err) {
         const payload = req.decoded;
-        // TODO: Log the payload here to verify that it's the same payload
-        //  we used when we created the token
-        // console.log('PAYLOAD', payload);
         if (payload && payload.user === 'admin') {
           User.find({}, (err, users) => {
             if (!err) {
