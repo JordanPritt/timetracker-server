@@ -52,7 +52,7 @@ module.exports = {
                 status = 200;
                 // Create a token
                 const payload = { user: user.name };
-                const options = { expiresIn: '2d', issuer: 'https://scotch.io' };
+                const options = { expiresIn: '2d', issuer: 'http://localhost' };
                 const secret = process.env.JWT_SECRET;
                 const token = jwt.sign(payload, secret, options);
 
