@@ -11,7 +11,7 @@ exports.default = (function (router) {
         // .put(UserController.updateUser)
         .get(ValidateToken_1.default.validateToken, UserController_1.default.getAllUsers);
     // .get(UserController.getAllUsers);
-    // router.route('/login')
-    // .post(UserController.login);
+    router.route('/login')
+        .post(UserController_1.default.loginUser);
 });
 //# sourceMappingURL=UserRoutes.js.map

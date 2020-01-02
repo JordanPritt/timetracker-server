@@ -10,6 +10,6 @@ export default (router: express.Router) => {
     .get(valid.validateToken, UserController.getAllUsers);
   // .get(UserController.getAllUsers);
 
-  // router.route('/login')
-  // .post(UserController.login);
+  router.route('/login')
+    .post(UserController.loginUser);
 };
