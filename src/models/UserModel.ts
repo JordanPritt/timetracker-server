@@ -1,13 +1,18 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+import mongoose, { Schema, Document } from 'mongoose';
+import { hash } from 'bcrypt';
+import stage from "../config.json";
+import { NextFunction } from 'express';
 
-const environment = process.env.NODE_ENV;
-const stage = require('../config')[environment];
+export interface IUserModel extends Document {
+  name: string,
+  password: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  status: string
+}
 
-// schema maps to a collection
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema({
+const UserSchema: Schema = new Schema({
   name: {
     type: 'String',
     required: true,
@@ -42,12 +47,12 @@ const userSchema = new Schema({
 });
 
 // encrypt password before save
-userSchema.pre('save', function(next) {
-  const user = this;
-  if(!user.isModified || !user.isNew) { // don't rehash if it's an old user
+UserSchema.pre<IUserModel>('save', function (next: NextFunction) {
+  const user: IUserModel = this;
+  if (!user.isModified || !user.isNew) { // don't rehash if it's an old user
     next();
   } else {
-    bcrypt.hash(user.password, stage.saltingRounds, function(err, hash) {
+    hash(user.password, stage.saltingRounds, function (err, hash) {
       if (err) {
         console.log('Error hashing password for user', user.name);
         next(err);
@@ -59,4 +64,4 @@ userSchema.pre('save', function(next) {
   }
 });
 
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model<IUserModel>('User', UserSchema);
