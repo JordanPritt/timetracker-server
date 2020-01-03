@@ -20,7 +20,7 @@ var App = /** @class */ (function () {
         this.app.use(body_parser_1.default.urlencoded({
             extended: true
         }));
-        this.app.use('/api/v1', Routes_1.default(this.router));
+        this.app.use("/api/v1", Routes_1.default(this.router));
         this.app.use(morgan_1.default("dev"));
     };
     return App;
