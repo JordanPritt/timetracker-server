@@ -170,7 +170,7 @@ var UserData = /** @class */ (function () {
                         status = 201;
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 6, , 7]);
+                        _a.trys.push([1, 5, , 6]);
                         test = process.env.MONGO_LOCAL_CONN_URL;
                         return [4 /*yield*/, mongoose_1.default.connect(this.connUri, {
                                 useNewUrlParser: true,
@@ -179,35 +179,32 @@ var UserData = /** @class */ (function () {
                             })];
                     case 2:
                         _a.sent();
-                        return [4 /*yield*/, mongoose_1.default.disconnect()];
-                    case 3:
-                        _a.sent();
                         user = new UserModel_1.default();
                         user.name = newUser.name;
                         user.password = newUser.password;
                         return [4 /*yield*/, user.save()];
-                    case 4:
+                    case 3:
                         _a.sent();
                         result.status = status;
                         result.result = user;
                         return [4 /*yield*/, mongoose_1.default.disconnect()];
-                    case 5:
+                    case 4:
                         _a.sent();
                         return [2 /*return*/, result];
-                    case 6:
+                    case 5:
                         e_3 = _a.sent();
                         status = 500;
                         result.status = status;
                         result.error = e_3.toString();
                         return [2 /*return*/, result];
-                    case 7: return [2 /*return*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
     };
     UserData.prototype.updateUser = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, status, test, oldUser, e_4;
+            var result, status, oldUser, e_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -221,7 +218,6 @@ var UserData = /** @class */ (function () {
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 6, , 7]);
-                        test = process.env.MONGO_LOCAL_CONN_URL;
                         return [4 /*yield*/, mongoose_1.default.connect(this.connUri, {
                                 useNewUrlParser: true,
                                 useUnifiedTopology: true,
@@ -233,7 +229,7 @@ var UserData = /** @class */ (function () {
                     case 3:
                         oldUser = _a.sent();
                         oldUser.name = user.name || oldUser.name;
-                        oldUser.password = user.password || oldUser.password;
+                        oldUser.set('password', user.password || oldUser.password);
                         oldUser.firstName = user.firstName || oldUser.firstName;
                         oldUser.lastName = user.lastName || oldUser.lastName;
                         oldUser.email = user.email || oldUser.email;

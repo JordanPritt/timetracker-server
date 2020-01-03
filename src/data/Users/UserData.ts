@@ -104,7 +104,6 @@ class UserData {
                 useUnifiedTopology: true,
                 useCreateIndex: true
             });
-            await mongoose.disconnect();
             let user = new UserModel();
             user.name = newUser.name;
             user.password = newUser.password;
@@ -133,7 +132,6 @@ class UserData {
         let status = 201;
 
         try {
-            let test = process.env.MONGO_LOCAL_CONN_URL;
             await mongoose.connect(this.connUri, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
@@ -141,7 +139,7 @@ class UserData {
             });
             const oldUser = await UserModel.findOne({ name: user.name });
             oldUser.name = user.name || oldUser.name;
-            oldUser.password = user.password || oldUser.password;
+            oldUser.set('password', user.password || oldUser.password);
             oldUser.firstName = user.firstName || oldUser.firstName;
             oldUser.lastName = user.lastName || oldUser.lastName;
             oldUser.email = user.email || oldUser.email;

@@ -49,7 +49,7 @@ var UserSchema = new mongoose_1.Schema({
 // encrypt password before save
 UserSchema.pre('save', function (next) {
     var user = this;
-    if (!user.isModified || !user.isNew) { // don't rehash if it's an old user
+    if (!user.isModified) { // don't rehash if it's an old user
         next();
     }
     else {

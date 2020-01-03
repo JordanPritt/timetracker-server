@@ -49,7 +49,7 @@ const UserSchema: Schema = new Schema({
 // encrypt password before save
 UserSchema.pre<IUserModel>('save', function (next: NextFunction) {
   const user: IUserModel = this;
-  if (!user.isModified || !user.isNew) { // don't rehash if it's an old user
+  if (!user.isModified) { // don't rehash if it's an old user
     next();
   } else {
     hash(user.password, stage.saltingRounds, function (err, hash) {

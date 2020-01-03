@@ -48,62 +48,80 @@ var UserController = /** @class */ (function () {
     }
     UserController.prototype.addUser = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var newUser, result;
+            var newUser, result, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 2, , 3]);
                         newUser = new UserModel_1.default(req.body);
                         return [4 /*yield*/, UserData_1.default.createNewUser(newUser)];
                     case 1:
                         result = _a.sent();
                         res.status(result.status).send(result.result);
-                        return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_1 = _a.sent();
+                        res.status(500).send({ error: e_1.toString() });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     UserController.prototype.loginUser = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, password, result;
+            var _a, name_1, password, result, e_2;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = req.body, name = _a.name, password = _a.password;
-                        return [4 /*yield*/, UserData_1.default.login(name, password)];
+                        _b.trys.push([0, 2, , 3]);
+                        _a = req.body, name_1 = _a.name, password = _a.password;
+                        return [4 /*yield*/, UserData_1.default.login(name_1, password)];
                     case 1:
                         result = _b.sent();
                         res.status(result.status).send(result.result);
-                        return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_2 = _b.sent();
+                        res.status(500).send({ error: e_2.toString() });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     UserController.prototype.updateUser = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, password, firstName, lastName, email, status, user, result;
+            var _a, name_2, password, firstName, lastName, email, status_1, user, result, e_3;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        _a = req.body, name = _a.name, password = _a.password, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, status = _a.status;
+                        _b.trys.push([0, 2, , 3]);
+                        _a = req.body, name_2 = _a.name, password = _a.password, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, status_1 = _a.status;
                         user = new UserModel_2.default();
-                        user.name = name;
+                        user.name = name_2;
                         user.password = password;
                         user.firstName = firstName;
                         user.lastName = lastName;
                         user.email = email;
-                        user.status = status;
+                        user.status = status_1;
                         return [4 /*yield*/, UserData_1.default.updateUser(user)];
                     case 1:
                         result = _b.sent();
                         res.status(result.status).send(result.result);
-                        return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_3 = _b.sent();
+                        res.status(500).send({ error: e_3.toString() });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     UserController.prototype.getAllUsers = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var payload, users, e_1;
+            var payload, users, e_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -117,8 +135,8 @@ var UserController = /** @class */ (function () {
                         _a.label = 2;
                     case 2: return [3 /*break*/, 4];
                     case 3:
-                        e_1 = _a.sent();
-                        res.status(500).send({ error: e_1.toString() });
+                        e_4 = _a.sent();
+                        res.status(500).send({ error: e_4.toString() });
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -127,7 +145,7 @@ var UserController = /** @class */ (function () {
     };
     UserController.prototype.getAccountDetails = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, details, e_2, err;
+            var user, details, e_5, err;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -139,8 +157,8 @@ var UserController = /** @class */ (function () {
                         res.status(200).send(details);
                         return [3 /*break*/, 3];
                     case 2:
-                        e_2 = _a.sent();
-                        err = e_2.toString();
+                        e_5 = _a.sent();
+                        err = e_5.toString();
                         res.status(500).send({ error: err });
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
