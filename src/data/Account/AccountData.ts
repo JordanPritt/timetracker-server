@@ -30,7 +30,7 @@ class AccountData {
         useUnifiedTopology: true,
         useCreateIndex: true
       });
-      const user = await UserModel.findOne({ name });
+      const user = await UserModel.findOne({ name: name });
       await mongoose.disconnect();
 
       accountDetails.firstName = user.firstName;

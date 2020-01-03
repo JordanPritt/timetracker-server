@@ -49,15 +49,25 @@ var UserData = /** @class */ (function () {
     }
     UserData.prototype.login = function (name, password) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, user, status_1, match, payload, options, secret, token, e_1;
+            var result, status, user, match, payload, options, secret, token, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        result = { status: 0, result: null, error: '', token: '' };
+                        result = {
+                            status: 0,
+                            result: null,
+                            error: "",
+                            token: ""
+                        };
+                        status = 200;
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 6, , 7]);
-                        return [4 /*yield*/, mongoose_1.default.connect(this.connUri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, })];
+                        return [4 /*yield*/, mongoose_1.default.connect(this.connUri, {
+                                useNewUrlParser: true,
+                                useUnifiedTopology: true,
+                                useCreateIndex: true
+                            })];
                     case 2:
                         _a.sent();
                         return [4 /*yield*/, UserModel_1.default.findOne({ name: name })];
@@ -66,28 +76,32 @@ var UserData = /** @class */ (function () {
                         return [4 /*yield*/, mongoose_1.default.disconnect()];
                     case 4:
                         _a.sent();
-                        status_1 = 200;
-                        return [4 /*yield*/, bcrypt_1.default.compare(password, user.password).catch(function () { return false; })];
+                        return [4 /*yield*/, bcrypt_1.default
+                                .compare(password, user.password)
+                                .catch(function () { return false; })];
                     case 5:
                         match = _a.sent();
                         if (!match) {
-                            status_1 = 401;
-                            result.status = status_1;
+                            status = 401;
+                            result.status = status;
                             result.error = "Authentication error";
                             return [2 /*return*/, result];
                         }
-                        status_1 = 200;
+                        status = 200;
                         payload = { user: user.name };
-                        options = { expiresIn: '2d', issuer: 'http://localhost' };
+                        options = { expiresIn: "2d", issuer: "http://localhost" };
                         secret = process.env.JWT_SECRET;
                         token = jsonwebtoken_1.default.sign(payload, secret, options);
                         result.token = token;
-                        result.status = status_1;
+                        result.status = status;
                         result.result = user;
                         return [2 /*return*/, result];
                     case 6:
                         e_1 = _a.sent();
-                        return [2 /*return*/, e_1];
+                        status = 500;
+                        result.status = status;
+                        result.error = e_1.toString();
+                        return [2 /*return*/, result];
                     case 7: return [2 /*return*/];
                 }
             });
@@ -99,12 +113,17 @@ var UserData = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        result = { status: 0, result: null, error: '', token: '' };
+                        result = {
+                            status: 0,
+                            result: null,
+                            error: "",
+                            token: ""
+                        };
                         status = 200;
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 8, , 9]);
-                        if (!(payload.user === 'admin')) return [3 /*break*/, 5];
+                        if (!(payload.user === "admin")) return [3 /*break*/, 5];
                         return [4 /*yield*/, mongoose_1.default.connect(this.connUri, { useNewUrlParser: true })];
                     case 2:
                         _a.sent();
@@ -138,37 +157,103 @@ var UserData = /** @class */ (function () {
     };
     UserData.prototype.createNewUser = function (newUser) {
         return __awaiter(this, void 0, void 0, function () {
-            var result, status, user, e_3;
+            var result, status, test, user, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        result = { status: 0, result: null, error: '', token: '' };
+                        result = {
+                            status: 0,
+                            result: null,
+                            error: "",
+                            token: ""
+                        };
                         status = 201;
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 5, , 6]);
-                        return [4 /*yield*/, mongoose_1.default.connect(this.connUri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, })];
+                        _a.trys.push([1, 6, , 7]);
+                        test = process.env.MONGO_LOCAL_CONN_URL;
+                        return [4 /*yield*/, mongoose_1.default.connect(this.connUri, {
+                                useNewUrlParser: true,
+                                useUnifiedTopology: true,
+                                useCreateIndex: true
+                            })];
                     case 2:
+                        _a.sent();
+                        return [4 /*yield*/, mongoose_1.default.disconnect()];
+                    case 3:
                         _a.sent();
                         user = new UserModel_1.default();
                         user.name = newUser.name;
                         user.password = newUser.password;
                         return [4 /*yield*/, user.save()];
-                    case 3:
+                    case 4:
                         _a.sent();
                         result.status = status;
                         result.result = user;
                         return [4 /*yield*/, mongoose_1.default.disconnect()];
-                    case 4:
+                    case 5:
                         _a.sent();
                         return [2 /*return*/, result];
-                    case 5:
+                    case 6:
                         e_3 = _a.sent();
                         status = 500;
                         result.status = status;
                         result.error = e_3.toString();
                         return [2 /*return*/, result];
-                    case 6: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserData.prototype.updateUser = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result, status, test, oldUser, e_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        result = {
+                            status: 0,
+                            result: null,
+                            error: "",
+                            token: ""
+                        };
+                        status = 201;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 6, , 7]);
+                        test = process.env.MONGO_LOCAL_CONN_URL;
+                        return [4 /*yield*/, mongoose_1.default.connect(this.connUri, {
+                                useNewUrlParser: true,
+                                useUnifiedTopology: true,
+                                useCreateIndex: true
+                            })];
+                    case 2:
+                        _a.sent();
+                        return [4 /*yield*/, UserModel_1.default.findOne({ name: user.name })];
+                    case 3:
+                        oldUser = _a.sent();
+                        oldUser.name = user.name || oldUser.name;
+                        oldUser.password = user.password || oldUser.password;
+                        oldUser.firstName = user.firstName || oldUser.firstName;
+                        oldUser.lastName = user.lastName || oldUser.lastName;
+                        oldUser.email = user.email || oldUser.email;
+                        oldUser.status = user.status || oldUser.status;
+                        return [4 /*yield*/, oldUser.save()];
+                    case 4:
+                        _a.sent();
+                        result.status = status;
+                        result.result = oldUser;
+                        return [4 /*yield*/, mongoose_1.default.disconnect()];
+                    case 5:
+                        _a.sent();
+                        return [2 /*return*/, result];
+                    case 6:
+                        e_4 = _a.sent();
+                        status = 500;
+                        result.status = status;
+                        result.error = e_4.toString();
+                        return [2 /*return*/, result];
+                    case 7: return [2 /*return*/];
                 }
             });
         });

@@ -3,6 +3,7 @@ import UserData from "../data/Users/UserData";
 import AccountData, { IDetails } from "../data/Account/AccountData";
 import UserSchema, { IUserModel } from "../models/UserModel";
 import ILoginResult from "../data/Users/ILoginResult";
+import UserModel from "../models/UserModel";
 
 class UserController {
   public async addUser(req: Request, res: Response) {
@@ -14,6 +15,19 @@ class UserController {
   public async loginUser(req: Request, res: Response) {
     const { name, password } = req.body;
     let result: ILoginResult = await UserData.login(name, password);
+    res.status(result.status).send(result.result);
+  }
+
+  public async updateUser(req: Request, res: Response) {
+    const { name, password, firstName, lastName, email, status } = req.body;
+    const user: IUserModel = new UserModel();
+    user.name = name;
+    user.password = password;
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+    user.status = status;
+    let result: ILoginResult = await UserData.updateUser(user);
     res.status(result.status).send(result.result);
   }
 
@@ -32,11 +46,11 @@ class UserController {
   public async getAccountDetails(req: Request, res: Response) {
     try {
       const user = req["decoded"];
-      let details: IDetails = await AccountData.getAccountDetails(user.name);
+      let details: IDetails = await AccountData.getAccountDetails(user.user);
       res.status(200).send(details);
     } catch (e) {
-      let test = e;
-      return null;
+      let err = e.toString();
+      res.status(500).send({ error: err });
     }
   }
 }

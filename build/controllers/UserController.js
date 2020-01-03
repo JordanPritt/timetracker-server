@@ -40,7 +40,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var UserData_1 = __importDefault(require("../data/Users/UserData"));
+var AccountData_1 = __importDefault(require("../data/Account/AccountData"));
 var UserModel_1 = __importDefault(require("../models/UserModel"));
+var UserModel_2 = __importDefault(require("../models/UserModel"));
 var UserController = /** @class */ (function () {
     function UserController() {
     }
@@ -76,6 +78,29 @@ var UserController = /** @class */ (function () {
             });
         });
     };
+    UserController.prototype.updateUser = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, name, password, firstName, lastName, email, status, user, result;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = req.body, name = _a.name, password = _a.password, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, status = _a.status;
+                        user = new UserModel_2.default();
+                        user.name = name;
+                        user.password = password;
+                        user.firstName = firstName;
+                        user.lastName = lastName;
+                        user.email = email;
+                        user.status = status;
+                        return [4 /*yield*/, UserData_1.default.updateUser(user)];
+                    case 1:
+                        result = _b.sent();
+                        res.status(result.status).send(result.result);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     UserController.prototype.getAllUsers = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var payload, users, e_1;
@@ -83,7 +108,7 @@ var UserController = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        payload = req['decoded'];
+                        payload = req["decoded"];
                         if (!payload) return [3 /*break*/, 2];
                         return [4 /*yield*/, UserData_1.default.getAllUsers(payload)];
                     case 1:
@@ -96,6 +121,29 @@ var UserController = /** @class */ (function () {
                         res.status(500).send({ error: e_1.toString() });
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserController.prototype.getAccountDetails = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var user, details, e_2, err;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        user = req["decoded"];
+                        return [4 /*yield*/, AccountData_1.default.getAccountDetails(user.user)];
+                    case 1:
+                        details = _a.sent();
+                        res.status(200).send(details);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_2 = _a.sent();
+                        err = e_2.toString();
+                        res.status(500).send({ error: err });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
