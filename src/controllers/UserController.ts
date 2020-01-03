@@ -7,28 +7,40 @@ import UserModel from "../models/UserModel";
 
 class UserController {
   public async addUser(req: Request, res: Response) {
-    let newUser: IUserModel = new UserSchema(req.body);
-    let result: ILoginResult = await UserData.createNewUser(newUser);
-    res.status(result.status).send(result.result);
+    try {
+      let newUser: IUserModel = new UserSchema(req.body);
+      let result: ILoginResult = await UserData.createNewUser(newUser);
+      res.status(result.status).send(result.result);
+    } catch (e) {
+      res.status(500).send({ error: e.toString() });
+    }
   }
 
   public async loginUser(req: Request, res: Response) {
-    const { name, password } = req.body;
-    let result: ILoginResult = await UserData.login(name, password);
-    res.status(result.status).send(result.result);
+    try {
+      const { name, password } = req.body;
+      let result: ILoginResult = await UserData.login(name, password);
+      res.status(result.status).send(result.result);
+    } catch (e) {
+      res.status(500).send({ error: e.toString() });
+    }
   }
 
   public async updateUser(req: Request, res: Response) {
-    const { name, password, firstName, lastName, email, status } = req.body;
-    const user: IUserModel = new UserModel();
-    user.name = name;
-    user.password = password;
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.email = email;
-    user.status = status;
-    let result: ILoginResult = await UserData.updateUser(user);
-    res.status(result.status).send(result.result);
+    try {
+      const { name, password, firstName, lastName, email, status } = req.body;
+      const user: IUserModel = new UserModel();
+      user.name = name;
+      user.password = password;
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.email = email;
+      user.status = status;
+      let result: ILoginResult = await UserData.updateUser(user);
+      res.status(result.status).send(result.result);
+    } catch (e) {
+      res.status(500).send({ error: e.toString() });
+    }
   }
 
   public async getAllUsers(req: Request, res: Response) {
